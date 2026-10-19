@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10112e">
+  <meta name="description" content="Otros Ojos: un lugar para mirar lo que sentimos desde otra perspectiva.">
+  <title>Otros Ojos — El amor es azul</title>
+
+  <style>
+    :root {
+      --night: #10112e;
+      --blue: #536cff;
+      --cyan: #8beaff;
+      --violet: #ad8bff;
+      --white: #f6f5ff;
+      --muted: #b9bddc;
+      --glass: rgba(255,255,255,.075);
+      --line: rgba(255,255,255,.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 12%, rgba(69,111,255,.36), transparent 38%),
+        radial-gradient(ellipse at 88% 36%, rgba(155,104,255,.25), transparent 36%),
+        radial-gradient(ellipse at 45% 95%, rgba(61,201,255,.15), transparent 38%),
+        var(--night);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image: radial-gradient(#fff .7px, transparent .7px);
+      background-size: 31px 31px;
+    }
+
+    .wrap {
+      width: min(1050px, 90%);
+      margin: auto;
+      position: relative;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: .9rem;
+      letter-spacing: .22em;
+      font-weight: 800;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .hero {
+      min-height: 490px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 70px 0 85px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(3.6rem, 12vw, 7.5rem);
+      letter-spacing: -.075em;
+      line-height: .95;
+      margin: 24px 0 18px;
+      font-weight: 800;
+      background: linear-gradient(120deg, #fff 10%, var(--cyan) 43%, #bba2ff 82%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      line-height: 1.8;
+      max-width: 510px;
+      margin: 0;
+    }
+
+    .slogan {
+      color: white;
+      letter-spacing: .16em;
+      font-size: .78rem;
+      margin-top: 29px;
+    }
+
+    .orb {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      margin-bottom: 26px;
+      background: radial-gradient(circle at 32% 25%, #d7ffff, #76dfff 22%, #5d72ff 56%, #a28bff 78%, #222452);
+      box-shadow: 0 0 55px rgba(103,147,255,.3), inset -12px -12px 28px rgba(18,18,65,.4);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .section { padding: 38px 0 55px; }
+
+    .section-head { margin-bottom: 25px; }
+
+    .section-head .eyebrow { margin-bottom: 12px; }
+
+    h2 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      letter-spacing: -.045em;
+      margin: 0 0 10px;
+    }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+      max-width: 600px;
+    }
+
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: clamp(20px, 5vw, 32px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 70px rgba(0,0,0,.13);
+    }
+
+    label {
+      display: block;
+      font-size: .88rem;
+      margin-bottom: 12px;
+      color: #e5e5ff;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 145px;
+      resize: vertical;
+      border: 1px solid rgba(180,190,255,.25);
+      border-radius: 16px;
+      padding: 17px;
+      color: white;
+      background: rgba(10,12,42,.48);
+      font: inherit;
+      font-size: 1rem;
+      line-height: 1.65;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(139,234,255,.1);
+    }
+
+    textarea::placeholder { color: #858aaf; }
+
+    .form-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .counter, .hint {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 21px;
+      color: #10112e;
+      background: linear-gradient(110deg, var(--cyan), #b5b0ff);
+      font: inherit;
+      font-weight: 750;
+      transition: transform .2s, opacity .2s;
+    }
+
+    button:hover { transform: translateY(-2px); }
+
+    button:disabled {
+      cursor: wait;
+      opacity: .55;
+      transform: none;
+    }
+
+    .status {
+      min-height: 24px;
+      margin: 14px 0 0;
+      font-size: .9rem;
+      color: var(--cyan);
+      line-height: 1.6;
+    }
+
+    .notes-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .notes-head button {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--white);
+      padding: 10px 15px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .note {
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      padding: 22px;
+      background: rgba(255,255,255,.045);
+      overflow-wrap: anywhere;
+      min-width: 0;
+    }
+
+    .note::before {
+      content: "“";
+      display: block;
+      color: var(--cyan);
+      font-family: Georgia, serif;
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .note-text {
+      white-space: pre-wrap;
+      line-height: 1.75;
+      margin: 8px 0 19px;
+    }
+
+    .note-date {
+      color: #a9b0d5;
+      font-size: .76rem;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 38px 15px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .music {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .music-copy { flex: 1 1 230px; }
+
+    .music-orb {
+      flex: 0 0 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #d8ffff, #74cfff 28%, #6861ff 65%, #b18bff);
+      box-shadow: 0 0 35px rgba(116,160,255,.25);
+    }
+
+    audio {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 45px 0 32px;
+      color: #999fca;
+      font-size: .8rem;
+      line-height: 1.9;
+    }
+
+    footer span { color: var(--cyan); }
+
+    @media (max-width: 650px) {
+      .hero { min-height: 430px; padding: 55px 0; }
+      .notes-grid { grid-template-columns: 1fr; }
+      .form-bottom { align-items: stretch; }
+      .form-bottom button { width: 100%; }
+      .orb { width: 100px; height: 100px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="brand">OTROS OJOS</div>
+      <a href="#notas">Dejá una nota ↗</a>
+    </nav>
+
+    <header class="hero">
+      <div class="orb" aria-hidden="true"></div>
+      <div class="eyebrow">Un lugar para sentir</div>
+      <h1>Otros Ojos</h1>
+      <p>
+        A veces no necesitamos olvidar lo que vivimos.
+        Solo aprender a mirarlo de otra manera.
+      </p>
+      <div class="slogan">EL AMOR ES AZUL</div>
+    </header>
+
+    <main>
+      <section class="section" id="notas">
+        <div class="section-head">
+          <div class="eyebrow">01 / Lo que llevamos dentro</div>
+          <h2>Dejá algo de vos.</h2>
+          <p class="sub">
+            Una idea, una despedida, algo que nunca dijiste o una
+            pequeña luz que encontraste. No necesitás escribir tu nombre.
+          </p>
+        </div>
+
+        <form class="panel" id="note-form">
+          <label for="note-input">
+            Tu nota para alguien que quizá la necesite leer.
+          </label>
+
+          <textarea
+            id="note-input"
+            name="note"
+            maxlength="500"
+            placeholder="Quizá alguien, en algún lugar, necesitaba leer esto..."
+            required
+          ></textarea>
+
+          <div class="form-bottom">
+            <span class="counter" id="counter">0 / 500</span>
+            <button type="submit" id="submit-button">
+              Soltar al universo ↗
+            </button>
+          </div>
+
+          <p class="hint">
+            Tu nota será pública y no mostrará tu nombre.
+            No incluyás datos personales tuyos ni de otras personas.
+          </p>
+
+          <p class="status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="section" aria-labelledby="wall-title">
+        <div class="notes-head">
+          <div>
+            <div class="eyebrow">02 / Un montón de mundos</div>
+            <h2 id="wall-title">Notas de otros ojos.</h2>
+            <p class="sub">
+              Palabras de personas que quizá nunca conozcás.
+            </p>
+          </div>
+          <button type="button" id="refresh-button">↻ Actualizar</button>
+        </div>
+
+        <div class="notes-grid" id="notes-list" aria-live="polite">
+          <div class="empty">Buscando las primeras notas...</div>
+        </div>
+
+        <p class="status" id="wall-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="section" id="musica">
+        <div class="panel music">
+          <div class="music-copy">
+            <div class="eyebrow">03 / Un sonido en el azul</div>
+            <h2>También hay cosas que se dicen con música.</h2>
+            <p class="sub">
+              Un pequeño fragmento para acompañar lo que no siempre
+              sabemos poner en palabras.
+            </p>
+
+            <audio controls preload="none" aria-label="Fragmento musical de Otros Ojos">
+              <source src="otros-ojos.mp3" type="audio/mpeg">
+              Tu navegador no puede reproducir este audio.
+            </audio>
+
+            <p class="hint">
+              El reproductor funcionará cuando agreguemos el archivo de audio.
+            </p>
+          </div>
+
+          <div class="music-orb" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>OTROS OJOS <span>✦</span></div>
+      Un espacio para mirar distinto, sentir sin miedo y volver a empezar.<br>
+      Hecho con cariño.
+    </footer>
+  </div>
+
+  <script>
+    // CONEXIÓN CON SUPABASE
+    const SUPABASE_URL =
+      "https://kvaynmnplsysexgbvmnn.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_yrwYVwbULAW8izOL-gOg4w_gN6T_ftG";
+
+    const form = document.getElementById("note-form");
+    const input = document.getElementById("note-input");
+    const counter = document.getElementById("counter");
+    const submitButton = document.getElementById("submit-button");
+    const formStatus = document.getElementById("form-status");
+    const notesList = document.getElementById("notes-list");
+    const wallStatus = document.getElementById("wall-status");
+    const refreshButton = document.getElementById("refresh-button");
+
+    function apiHeaders(extra = {}) {
+      return {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        ...extra
+      };
+    }
+
+    function setStatus(element, message) {
+      element.textContent = message;
+    }
+
+    input.addEventListener("input", () => {
+      counter.textContent = `${input.value.length} / 500`;
+    });
+
+    function formatDate(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "";
+
+      return date.toLocaleDateString("es-GT", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function renderNotes(notes) {
+      notesList.replaceChildren();
+
+      if (!notes || notes.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent =
+          "Todavía no hay notas. Quizá la primera pueda ser tuya. 💙";
+
+        notesList.appendChild(empty);
+        return;
+      }
+
+      for (const note of notes) {
+        const card = document.createElement("article");
+        card.className = "note";
+
+        const content = document.createElement("p");
+        content.className = "note-text";
+
+        // Evita que el contenido de una nota se interprete como HTML.
+        content.textContent = note.contenido;
+
+        const date = document.createElement("div");
+        date.className = "note-date";
+        date.textContent = formatDate(note.created_at);
+
+        card.append(content, date);
+        notesList.appendChild(card);
+      }
+    }
+
+    async function loadNotes() {
+      refreshButton.disabled = true;
+      setStatus(wallStatus, "Cargando notas...");
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/notas?select=id,contenido,created_at&order=created_at.desc&limit=100`,
+          { headers: apiHeaders() }
+        );
+
+        if (!response.ok) {
+          throw new Error("No se pudieron cargar las notas.");
+        }
+
+        const notes = await response.json();
+
+        renderNotes(notes);
+        setStatus(wallStatus, "");
+      } catch (error) {
+        setStatus(
+          wallStatus,
+          "No pudimos cargar las notas. Revisá tu conexión y los permisos de Supabase."
+        );
+      } finally {
+        refreshButton.disabled = false;
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const contenido = input.value.trim();
+
+      if (contenido.length < 1 || contenido.length > 500) {
+        setStatus(
+          formStatus,
+          "Tu nota debe tener entre 1 y 500 caracteres."
+        );
+        return;
+      }
+
+      submitButton.disabled = true;
+      setStatus(formStatus, "Enviando tu nota al universo...");
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/notas`,
+          {
+            method: "POST",
+            headers: apiHeaders({
+              "Content-Type": "application/json",
+              "Prefer": "return=minimal"
+            }),
+            body: JSON.stringify({ contenido })
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("No se pudo publicar la nota.");
+        }
+
+        input.value = "";
+        counter.textContent = "0 / 500";
+
+        setStatus(formStatus, "Tu nota ya está en Otros Ojos. 💙");
+
+        await loadNotes();
+      } catch (error) {
+        setStatus(
+          formStatus,
+          "No se pudo publicar. Revisá la conexión y los permisos de Supabase."
+        );
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    refreshButton.addEventListener("click", loadNotes);
+
+    // Cargar las notas al entrar en la página.
+    loadNotes();
+  </script>
+</body>
+</html>
